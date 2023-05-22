@@ -1,0 +1,6 @@
+Django~=4.2
+djangorestframework~=3.14.0
+django-ckeditor~=6.5.1
+Pillow~=9.5.0
+pandas~=2.0.1
+scikit-learn~=1.2.2
