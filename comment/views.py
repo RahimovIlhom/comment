@@ -32,10 +32,11 @@ class CommentViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             serializer.save()
             commentNew.comment = serializer.validated_data['comment']
-            checkC = checkText(commentNew.comment.lower())
+            commentText = f'{commentNew.comment}'
+            checkC = checkText(commentText.lower())
             commentNew.type = checkC['label']
-            commentNew.save()
             print(commentNew.type)
+            commentNew.save()
             serializer = CommentSerializers(commentNew, context=self.get_serializers_context())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
