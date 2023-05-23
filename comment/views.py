@@ -34,10 +34,8 @@ class CommentViewSet(viewsets.ViewSet):
             commentNew.comment = serializer.validated_data['comment']
             checkC = checkText(commentNew.comment.lower())
             commentNew.type = checkC['label']
-            print(commentNew.type)
-            if commentNew.type == 'negative':
-                commentNew.field = checkNegComment(commentNew.comment.lower())['label']
             commentNew.save()
+            print(commentNew.type)
             serializer = CommentSerializers(commentNew, context=self.get_serializers_context())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
