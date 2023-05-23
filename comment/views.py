@@ -27,17 +27,15 @@ class CommentViewSet(viewsets.ViewSet):
         return Response(serilizers.data)
 
     def create(self, request, *args, **kwargs):
-        commentNew = Comment.objects.create()
-        serializer = CommentSerializers(commentNew, data=request.data, context=self.get_serializers_context())
+        serializer = CommentSerializers(data=request.data, context=self.get_serializers_context())
         if serializer.is_valid():
             serializer.save()
-            commentNew.comment = serializer.validated_data['comment']
-            commentText = f'{commentNew.comment}'
+            commentNew = serializer.instance
+            commentText = commentNew.comment
             checkC = checkText(commentText.lower())
             commentNew.type = checkC['label']
             print(commentNew.type)
             commentNew.save()
-            serializer = CommentSerializers(commentNew, context=self.get_serializers_context())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
